@@ -1,0 +1,11 @@
+# Spring Boot app (nested Maven project)
+www/target/
+www/.idea/
+www/*.iml
+
+# IDE
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
