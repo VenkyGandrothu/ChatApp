@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.chatapp.www.dto.RegistrationDTO;
@@ -17,10 +18,13 @@ public class AuthService {
     @Autowired
     private UserRepository userRepo;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+     
 
     public String register(RegistrationDTO registrationDTO){
 
-        Optional<User> existingUser = userRepo.findUserByEmail(registrationDTO.getEmail());
+        Optional<User> existingUser = userRepo.findByEmail(registrationDTO.getEmail());
         if(existingUser.isPresent()){
             throw new RuntimeException("Email already exists");
         }
@@ -35,7 +39,7 @@ public class AuthService {
         user.setEmail(registrationDTO.getEmail());
 
         //set user password
-        user.setPassword(registrationDTO.getPassword());
+        user.setPassword(passwordEncoder.encode(registrationDTO.getPassword()));
 
         //set user create at
         user.setCreateAt(LocalDateTime.now());
@@ -48,10 +52,10 @@ public class AuthService {
 
     public String login(LoginDTO loginDTO){
 
-        User user = (User) userRepo.findUserByEmail(loginDTO.getEmail()).orElseThrow(() -> 
+        User user = (User) userRepo.findByEmail(loginDTO.getEmail()).orElseThrow(() -> 
         new RuntimeException("User not found or invalid credentials"));
 
-        if(!user.getPassword().equals(loginDTO.getPassword())){
+        if(!passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())){
             throw new RuntimeException("Invalid password");
         }
 
