@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.chatapp.www.dto.LoginDTO;
 import com.chatapp.www.dto.RegistrationDTO;
 import com.chatapp.www.service.AuthService;
+
+import jakarta.validation.Valid;
+
 import com.chatapp.www.dto.RegistrationDTO;
 
 @RestController
@@ -21,12 +24,12 @@ public class AuthController {
 
 
     @PostMapping("/register")
-    public String register(@RequestBody RegistrationDTO registrationDTO){
+    public String register( @Valid @RequestBody RegistrationDTO registrationDTO){
         return authService.register(registrationDTO);
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginDTO loginDTO){
+    public String login(@Valid @RequestBody LoginDTO loginDTO){
         return authService.login(loginDTO);
     }
 }

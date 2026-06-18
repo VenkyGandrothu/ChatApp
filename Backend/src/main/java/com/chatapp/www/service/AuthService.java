@@ -11,6 +11,7 @@ import com.chatapp.www.dto.RegistrationDTO;
 import com.chatapp.www.dto.LoginDTO;
 import com.chatapp.www.entity.User;
 import com.chatapp.www.repository.UserRepository;
+import com.chatapp.www.security.JwtService;
 
 @Service
 public class AuthService {
@@ -21,6 +22,8 @@ public class AuthService {
     @Autowired
     private PasswordEncoder passwordEncoder;
      
+    @Autowired
+    private JwtService jwtService;
 
     public String register(RegistrationDTO registrationDTO){
 
@@ -59,7 +62,7 @@ public class AuthService {
             throw new RuntimeException("Invalid password");
         }
 
-        return "User logged in successfully";
+        return jwtService.generateToken(user.getEmail());
 
     }
 }
