@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+    
+    //finding user by their email
     Optional<User> findByEmail(String email);
 
     // Discover: search by name (partial match)
