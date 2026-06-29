@@ -13,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,11 +22,12 @@ import lombok.Setter;
 
 @Entity
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Table(name = "user_connections")
 public class UserConnection {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
     
     @ManyToOne
     @JoinColumn(name="requester_id" , nullable = false)
